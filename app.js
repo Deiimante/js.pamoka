@@ -1,7 +1,5 @@
-(function() {
-
-
 const movies = [
+
   {
     id: 1,
     title: "Inception",
@@ -212,142 +210,94 @@ const movies = [
     notes: "",
     addedAt: "2024-10-17T16:45:00Z"
   }
-];
+]
 
-
-/*const sum = function (a, b, fn){
-    fn()
-    return a + b
+/*MAP užduotys
+a) Naudodami map, sukurkite naują masyvą su visų knygų pavadinimais (be pasikartojimų kategorijose).
+b) Naudodami map, sukurkite masyvą objektų, kuriuose būtų:
+{
+  kategorija: "...",
+  pavadinimas: "...",
+  pilnasPavadinimas: "Kategorija – Knygos pavadinimas"
 }
-console.log(sum(a:12, b:23, fn: function():void{
-    console.log("Labas")
-}))
+c) Naudodami map, kiekvienai knygai apskaičiuokite bendrą vertę sandėlyje (kiekis * kaina) ir grąžinkite masyvą su tokiais objektais:
+{
+  ISBN: "...",
+  pavadinimas: "...",
+  verte: 123
+}*/
 
+let visiPavadinimai = movies.map(x => x.title);
+console.log("1. Visi pavadinimai:", visiPavadinimai);
 
-const sum = (a,b) => a+ b; 
-const syHello */
+let pavadinimuObj = movies.map(x => {
+    return {
+        pavadinimas: x.title,
+        metai: x.year,
+        pilnas: x.title + " (" + x.year + ")"
+    };
+});
+console.log("2. Objektai su pilnu pavadinimu:", pavadinimuObj);
 
-
-
-
-/*const showMovies = () => {
-    const movies = "Labai geri filmai"
-    const movieTitle = "Matrix"
-    console.log(MovieTitle)
-    console.log(movies);
-};*/
-
-/*for(let i=0; i<100; i++){
-    for(let i=0; j<100; j++){
-
+let suBoxOffice = movies.map(x => {
+    return {
+        id: x.id,
+        pavadinimas: x.title,
+        pelnas: x.boxOfficeUSD
     }
-}
+});
+console.log("3. Filmų pelnas:", suBoxOffice);
 
-console.log(movieTitle)
+/*FILTER užduotys
+a) Naudodami filter, išrinkite naujas knygas – tas, kurių leidimoMetai yra lygūs einamiesiems metams.
+b) Naudodami filter, išrinkite brangias knygas, kurių kaina didesnė už, pavyzdžiui, 30 EUR.
+c) Naudodami filter, sukurkite naują kategorijų masyvą, kuriame liktų tik tos kategorijos, kurių bent viena knyga turi daugiau nei 300 puslapių*/
+// FILTER užduotys
+let naujiFilmai = movies.filter(x => x.year == 2025); 
+console.log("4. Nauji filmai 2025:", naujiFilmai);
 
-showMovies()*/
+let geraiVertinti = movies.filter(x => x.imdbRating > 8.8);
+console.log("5. Filmai su IMDb > 8.8:", geraiVertinti);
 
-/*const studnts= ["Ieva" , "Karolis", "Karolina","Aurimas"];
-const studentsResults = [9.2, 7.5, 5.8]
-//foreach
-students.forEach(student=> console.log(student))
+let animeFilmai = movies.filter(x => x.language == "Japanese");
+console.log("6. Anime filmai:", animeFilmai);
 
-//map 
-const incareaseResults = studentsRezults.map(grade =>grade * 1.10);
-console.log("studentu rezultatai: "+studentsResults)
-console.log("Padidinti studentu rezultatai:"+incareaseResults)
+/*REDUCE užduotys
+a) Naudodami reduce, suskaičiuokite bendrą visų knygų kiekį kataloge (visose kategorijose).
+b) Naudodami reduce, suskaičiuokite bendrą katalogo vertę eurais, t. y. visų knygų (kiekis * kaina) sumą.
+c) Naudodami reduce, suskaičiuokite, kiek iš viso puslapių turėtų visos knygos, jei jas visas sudėtume (suma puslapiuSkaicius * kiekis).
+let visuTrukme = movies.reduce((sum, x) => sum + x.durationMin, 0);
+console.log("7. Visų filmų trukmė min:", visuTrukme);*/
 
-//filter 
-const topStudents= studentsResults.filter(grade=>grade > 7);
-console.log(topStudents)
+let bendraKasa = movies.reduce((sum, x) => sum + x.boxOfficeUSD, 0);
+console.log("8. Visų filmų bendra kasa:", bendraKasa);
 
-//sort 
-console.log("Before sort: "+students)
-console.log("after sort"+students.sort())
+/* SORT užduoys
+ a) Naudodami sort, išrikiuokite vienos pasirinktos kategorijos knygas pagal leidimo metus didėjančia tvarka.
+b) Naudodami sort, išrikiuokite visas katalogo knygas pagal kainą mažėjančia tvarka.
+c) Naudodami sort, išrikiuokite kategorijų masyvą pagal kategorijos pavadinimą abėcėlės tvarka.
+let pagalMetus = movies.slice().sort((a,b)=> a.year - b.year);
+console.log("9. Filmai pagal metus (seniausi → naujausi):", pagalMetus);*/
 
-//min
-console.log(Math.min(...studentsResults))
+let pagalRating = movies.slice().sort((a,b)=> b.imdbRating - a.imdbRating);
+console.log("10. Filmai pagal IMDb reitingą (didžiausias → mažiausias):", pagalRating);
 
-//max
-console.log(Math.max(...studentsResults))
+let abecele = movies.slice().sort((a,b)=> a.title.localeCompare(b.title));
+console.log("11. Filmai pagal abėcėlę:", abecele);
 
- //Reduse
-const prices = [12.56, 45.56, 67.12, 120.56, 167.45];
-const initiolValue=0;
-const total=prices.reduce(
-    (accumulattor,currentValue) => accumulator+currentValue)
+/* MIN / MAX užduotys
+a) Raskite pigiausią knygą kataloge (mažiausia kaina) ir išveskite jos kategoriją, pavadinimą ir kainą.
+b) Raskite brangiausią knygą kataloge (didžiausia kaina).
+c) Raskite seniausią ir naujausią knygą pagal leidimoMetai.
+d) Raskite, kurios kategorijos knygų bendras kiekis (viso egzempliorių) yra didžiausias ir mažiausias (čia galite derinti reduce su Math.max / Math.min arba papildomu sort).
+let pigiausias = movies.reduce((a,b)=> a.boxOfficeUSD < b.boxOfficeUSD ? a : b);
+console.log("12. Pigiausias filmas (pagal boxOfficeUSD):", pigiausias);*/
 
-console.log("Prekiu suma:"+ total)*/
+let brangiausias = movies.reduce((a,b)=> a.boxOfficeUSD > b.boxOfficeUSD ? a : b);
+console.log("13. Brangiausias filmas (pagal boxOfficeUSD):", brangiausias);
 
-//ISVEDAMAS VISUS FILMUS 
-const printAllMovies = (data) =>{
-    data.forEach((movue,index) => {console.log(
-        `${index +1}. ${movie.title} (${movie.year}) - IIMDB: ${movie.imdbRating}`
-    )
-    }) 
+let seniausias = movies.reduce((a,b)=> a.year < b.year ? a : b);
+console.log("14. Seniausias filmas:", seniausias);
 
-}
-printAllMovies(movies)
-
-//SUMAZINTI FILMU REITINGUS 10%
-
-const reduceRating =(data) =>{
-    return data.map((movie)=>{
-        const newRating = movie.imdbRating *0.9;
-        return{
-            ...movie,
-            imdbRating: Number(newRating.toFixed(1))
-        }
-    })
-}
-console.log("Su pakeistu reitingu:")
-printAllMovies(reduceRating(movies))
-
-//Filtravimas pagal rezisieriu
-
-const filterByDirector = (data,diectorName) =>{
-    return data.filter(movie => movie.director === directorName)
-}
-console.log("Filtruota pagal rezisieriu:")
-printAllMovies(filterByDirector(movies,"Francis Ford Coppola"))
-
-//Rikiuoja pagal reitingus 
-const sortByImdb = (data)=>{
-    return [...data].sort((a,b)=>b.imdbRating - a.imdbRating);
-}
-console.log("Surikiuot pagal reitinga: ");
-printAllMovies(sortByImdb(moviess))
-
-//Rikiuoja pagal pavadinimus
-const sortByTitle =(data) =>{
-    return[...data].sort((a,b)=>{
-        a.title.localeCompare(b.title,"en",{sensitiviti:"base"})
-    })
-
-}
-console.log("Surikiuota pagal pavadinima;")
-printAllMovies(sortByTitle(movies))
-
-//Rasti filma su maziausiu reitingu
-const findByLowestRated = (data)=>{
-    if(data.length === 0) return null
-
-    return data.reduce((lowest,movie)=>{
-        return movie.imdbRating < lowest.imdbRating ? movie:lowest;
-    },data[0])
-}
-console.log("Filmas su zemiausiu reitingu: ")
-printAllMovies(findByLowestRated(movies))
-
-
-//Rasti filma su didziausiu IMDB reitingu galima naudoti ir su min lygiai taip pat 
-const findHighestRated =(data) =>{
-    if(data.length ===0)return null;
-    const maxRating=Math.max(...data.map(m =>m.imdbRating));
-    return data.filter(m=>m.imdbRating ===maxRating)
-}
-console.log("Filamas su didziausiu reitingu:")
-printAllMovies(findHighestRated(movies))
-})();
-
-
+let naujausias = movies.reduce((a,b)=> a.year > b.year ? a : b);
+console.log("15. Naujausias filmas:", naujausias);
